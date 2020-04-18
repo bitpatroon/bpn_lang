@@ -1,0 +1,40 @@
+#typo3-cms-backend-backend-toolbaritems-tx_bpnlang {
+    cursor: pointer;
+    min-width: 45px;
+    padding: 0 10px;
+    line-height: 45px;
+    vertical-align: middle;
+
+    &:hover {
+        border-left-color: #373737;
+        background-color: #333333;
+        color: #FFFFFF;
+    }
+
+    &.lang_1 {
+        color: #FFFFFF;
+        background-color: #699cd1;
+        line-height: 23px;
+
+        &:hover {
+            background-color: #6daae0;
+        }
+    }
+
+    &.lang_2 {
+        color: #FFFFFF;
+        background-color: #e38800;
+        line-height: 23px;
+
+        &:hover {
+            background-color: #f29400;
+        }
+    }
+
+    span {
+        display: block;
+        font-size: 0.8em;
+    }
+}
+
+

@@ -1,0 +1,32 @@
+{
+    "name": "bitpatroon/bpn_lang",
+    "description": "Adds a Language toggle in the TYPO3 backend",
+    "type": "typo3-cms-extension",
+    "keywords": [
+        "typo3",
+        "lang",
+        "translations"
+    ],
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Sjoerd Zonneveld",
+            "homepage": "https://www.bitpatroon.nl",
+            "role": "Developer",
+            "email": "github@bitpatroon.nl"
+        }
+    ],
+    "require": {
+        "php": "^7.0",
+        "typo3/cms-core": "^10.3"
+    },
+    "config": {
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "BPN\\BpnLang\\": "Classes"
+        }
+    }
+}
