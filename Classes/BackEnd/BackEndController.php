@@ -1,4 +1,5 @@
 <?php
+
 /***************************************************************
  *  Copyright notice
  *
@@ -26,7 +27,10 @@
 
 namespace BPN\BpnLang\BackEnd;
 
+use TYPO3\CMS\Backend\Controller\BackendController as BackendControllerAlias;
 use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class BackEndController
@@ -38,12 +42,12 @@ class BackEndController
 
     /**
      * Hook
-     * @param array                                           $params The parameter Array
-     * @param \TYPO3\CMS\Backend\Controller\BackendController $ref    The parent object
+     * @param array                  $params The parameter Array
+     * @param BackendControllerAlias $ref    The parent object
      */
     public function renderPreProcess(&$params, $ref)
     {
-        if (!($ref instanceof \TYPO3\CMS\Backend\Controller\BackendController)) {
+        if (!($ref instanceof BackendControllerAlias)) {
             return;
         }
 
@@ -52,18 +56,16 @@ class BackEndController
 
     /**
      * Hook
-     * @param array                                           $params The parameter Array
-     * @param \TYPO3\CMS\Backend\Controller\BackendController $ref    The parent object
+     * @param array                  $params The parameter Array
+     * @param BackendControllerAlias $ref    The parent object
+     * @noinspection PhpUnusedParameterInspection
      */
-    private function addLangToggle(
-        /** @noinspection PhpUnusedParameterInspection */
-        &$params,
-        $ref
-    ) {
-        $folder = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('bpn_lang');
+    private function addLangToggle(&$params, $ref)
+    {
+        $folder = ExtensionManagementUtility::extPath('bpn_lang');
 
         /** @var PageRenderer $pageRenderer */
-        $pageRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(PageRenderer::class);
+        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         $pageRenderer->loadRequireJsModule('TYPO3/CMS/BpnLang/Backend/BpnLang');
         $pageRenderer->addCssFile($folder . 'Resources/Public/CSS/BackEnd/Backend.css');
     }

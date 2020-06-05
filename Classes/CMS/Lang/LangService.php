@@ -1,4 +1,5 @@
 <?php
+
 /***************************************************************
  *  Copyright notice
  *
@@ -89,9 +90,9 @@ class LangService extends \TYPO3\CMS\Core\Localization\LanguageService
     /**
      * Returns the label with key $index from the $LOCAL_LANG array used as the second argument
      *
-     * @param string $index Label key
-     * @param array $localLanguage $LOCAL_LANG array to get label key from
-     * @param bool $hsc If set, the return value is htmlspecialchar'ed
+     * @param string $index         Label key
+     * @param array  $localLanguage $LOCAL_LANG array to get label key from
+     * @param bool   $hsc           If set, the return value is htmlspecialchar'ed
      * @return string
      */
     public function getLLL($index, $localLanguage)
