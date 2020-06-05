@@ -4,9 +4,12 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-//------------------------------------ fix for file:uid links
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Lang\LanguageService::class] = [
-    'className' => \BPN\BpnLang\CMS\Lang\LangService::class
+//$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Lang\LanguageService::class] = [
+//    'className' => \BPN\BpnLang\CMS\Lang\LanguageService::class
+//];
+
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Core\Localization\LanguageServiceFactory::class] = [
+    'className' => \BPN\BpnLang\CMS\Core\Localization\LanguageServiceFactory::class
 ];
 
 // Add BE control
