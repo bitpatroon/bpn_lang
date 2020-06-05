@@ -37,9 +37,9 @@ namespace BPN\BpnLang\CMS\Lang;
  */
 class LangService extends \TYPO3\CMS\Core\Localization\LanguageService
 {
-    const DISPLAY_LABEL_WHEN_NOT_SET = 2; // extension default
-    const DISPLAY_NO_LABEL_WHEN_NOT_SET = 1; // no debug
-    const DISPLAY_TEXT_AND_LABEL = 0;  // TYPO3 default
+    public const DISPLAY_LABEL_WHEN_NOT_SET = 2; // extension default
+    public const DISPLAY_NO_LABEL_WHEN_NOT_SET = 1; // no debug
+    public const DISPLAY_TEXT_AND_LABEL = 0;  // TYPO3 default
 
     /**
      * @var int
