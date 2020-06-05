@@ -47,20 +47,6 @@ class LanguageService extends \TYPO3\CMS\Core\Localization\LanguageService
     private $settings = -1;
 
     /**
-     * Debugs localization key.
-     *
-     * @param string $value value to debug
-     * @return string
-     */
-    public function debugLL($value)
-    {
-        if ($this->getLangDebugSetting() == self::DISPLAY_TEXT_AND_LABEL) {
-            return parent::debugLL($value);
-        }
-        return '';
-    }
-
-    /**
      * splitLabel function
      *
      * All translations are based on $LOCAL_LANG variables.
@@ -142,22 +128,39 @@ class LanguageService extends \TYPO3\CMS\Core\Localization\LanguageService
      */
     private function showDebugKey(string $sL, string $input = null)
     {
-        if (!empty($sL) || $this->getLangDebugSetting() != self::DISPLAY_LABEL_WHEN_NOT_SET) {
-            return $sL;
-        }
-
         if (empty($input)) {
-            return $input;
+            return '';
         }
 
-        if (!$this->debugKey) {
-            $key = $input;
-            if (strpos($input, ':') !== false) {
-                [, , , $key] = explode(':', $input);
-            }
-            return sprintf('[%s]', $key);
-        }
+        switch ($this->getLangDebugSetting()) {
+            case self::DISPLAY_LABEL_WHEN_NOT_SET:
+                if (!empty($sL)) {
+                    return $sL;
+                }
+                return sprintf('[%s]', $this->getLanguageKey($input));
 
-        return parent::debugLL($input);
+            case self::DISPLAY_TEXT_AND_LABEL:
+                $label = sprintf('%s [%s]', $sL, $this->getLanguageKey($input));
+                return trim($label);
+
+            default:
+                if ($this->debugKey) {
+                    return parent::debugLL($input);
+                }
+                return $sL;
+        }
+    }
+
+
+    private function getLanguageKey(string $input): string
+    {
+        if (empty($input)) {
+            return '';
+        }
+        if (strpos($input, ':') !== false) {
+            [, , , $key] = explode(':', $input);
+            return $key;
+        }
+        return $input;
     }
 }
