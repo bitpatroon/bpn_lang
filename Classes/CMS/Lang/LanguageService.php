@@ -35,30 +35,16 @@ namespace BPN\BpnLang\CMS\Lang;
  * @author  : SZO
  * @fqn     : BPN\BpnLang\CMS\Lang\LangService
  */
-class LangService extends \TYPO3\CMS\Core\Localization\LanguageService
+class LanguageService extends \TYPO3\CMS\Core\Localization\LanguageService
 {
-    const DISPLAY_LABEL_WHEN_NOT_SET = 2; // extension default
-    const DISPLAY_NO_LABEL_WHEN_NOT_SET = 1; // no debug
-    const DISPLAY_TEXT_AND_LABEL = 0;  // TYPO3 default
+    public const DISPLAY_LABEL_WHEN_NOT_SET = 2; // extension default
+    public const DISPLAY_NO_LABEL_WHEN_NOT_SET = 1; // no debug
+    public const DISPLAY_TEXT_AND_LABEL = 0;  // TYPO3 default
 
     /**
      * @var int
      */
     private $settings = -1;
-
-    /**
-     * Debugs localization key.
-     *
-     * @param string $value value to debug
-     * @return string
-     */
-    public function debugLL($value)
-    {
-        if ($this->getLangDebugSetting() == self::DISPLAY_TEXT_AND_LABEL) {
-            return parent::debugLL($value);
-        }
-        return '';
-    }
 
     /**
      * splitLabel function
@@ -79,10 +65,7 @@ class LangService extends \TYPO3\CMS\Core\Localization\LanguageService
                 return $sL;
 
             case self::DISPLAY_LABEL_WHEN_NOT_SET:
-                if (empty($sL)) {
-                    return parent::debugLL($input);
-                }
-                break;
+                return $this->showDebugKey($sL, $input);
         }
         return $sL;
     }
@@ -98,8 +81,8 @@ class LangService extends \TYPO3\CMS\Core\Localization\LanguageService
     public function getLLL($index, $localLanguage)
     {
         $lll = parent::getLLL($index, $localLanguage);
-        if (empty($lll) && $this->debugKey) {
-            return parent::debugLL($index);
+        if (empty($lll)) {
+            return $this->showDebugKey($lll, $index);
         }
         return $lll;
     }
@@ -110,7 +93,7 @@ class LangService extends \TYPO3\CMS\Core\Localization\LanguageService
      */
     protected function getLangDebugSetting()
     {
-        if (($this->settings < 0) && $this->debugKey) {
+        if ($this->settings < 0) {
             $this->settings = $this->getLabelSettings();
         }
         return $this->settings;
@@ -136,5 +119,48 @@ class LangService extends \TYPO3\CMS\Core\Localization\LanguageService
         }
 
         return $setting;
+    }
+
+    /**
+     * @param string $sL
+     * @param string $input
+     * @return string
+     */
+    private function showDebugKey(string $sL, string $input = null)
+    {
+        if (empty($input)) {
+            return '';
+        }
+
+        switch ($this->getLangDebugSetting()) {
+            case self::DISPLAY_LABEL_WHEN_NOT_SET:
+                if (!empty($sL)) {
+                    return $sL;
+                }
+                return sprintf('[%s]', $this->getLanguageKey($input));
+
+            case self::DISPLAY_TEXT_AND_LABEL:
+                $label = sprintf('%s [%s]', $sL, $this->getLanguageKey($input));
+                return trim($label);
+
+            default:
+                if ($this->debugKey) {
+                    return parent::debugLL($input);
+                }
+                return $sL;
+        }
+    }
+
+
+    private function getLanguageKey(string $input): string
+    {
+        if (empty($input)) {
+            return '';
+        }
+        if (strpos($input, ':') !== false) {
+            [, , , $key] = explode(':', $input);
+            return $key;
+        }
+        return $input;
     }
 }
